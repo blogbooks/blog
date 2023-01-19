@@ -4,120 +4,126 @@ const config = {
     ]
 }
 
+function escape(string) {
+    if(typeof string !== 'string') {
+      return string;
+    }
+    return string.replace(/[&'`"<>]/g, function(match) {
+        return {
+            '&': '&amp;',
+            "'": '&#x27;',
+            '`': '&#x60;',
+            '"': '&quot;',
+            '<': '&lt;',
+            '>': '&gt;',
+        }[match]
+    });
+}
+
 function request() {
     try {
         const aria = document.querySelector("#container").innerHTML;
         const dir = location.pathname.substring(1).split("/");
 
         if (dir[0]) {
-            
+            if (dir[1]) {
+                let userinfo = fetch(`https://api.github.com/users/${dir[0]}`);
+                userinfo = userinfo.json();
+
+                if (userinfo.message == "Not Found") new Error("[Github API] User: Not Found");
+
+                let repoinfo = fetch(`https://api.github.com/repos/${dir[0]}/_cpost`);
+                repoinfo = repoinfo.json();
+
+                if (userinfo.message == "Not Found") return location.href = `/${dir[0]}`;
+
+                const target = location.pathname.substring(location.pathname.indexOf(dir[0]) + dir[1].length + 1);
+
+                fetch(`https://raw.githubusercontent.com/${dir[0]}/_cpost/main/${target}.md`)
+                    .then()
+            } else {
+                let userinfo = fetch(`https://api.github.com/users/${dir[0]}`);
+                userinfo = userinfo.json();
+
+                if (userinfo.message == "Not Found") new Error("[Github API] User: Not Found");
+
+                let repoinfo = fetch(`https://api.github.com/repos/${dir[0]}/_cpost`);
+                repoinfo = repoinfo.json();
+
+                if (userinfo.message == "Not Found") repoinfo = {
+                    created_at: "null",
+                    pushed_at: "null"
+                };
+
+                switch (userinfo.type) {
+                    case "User":
+                        fetch("/.template/user.md")
+                            .then(res => res.text())
+                            .then(data => {
+                                [["followers", data.followers], ["created_at", repoinfo.created_at], ["pushed_at", repoinfo.pushed_at], ["followings", data.following], ["userName", dir[0]]].forEach(info => {
+                                    data = data.replaceAll(`%${info[0]}%`, info[1]);
+                                });
+                                aria = markdown.parse(escape(data));
+                            })
+                            .catch(e => new Error(e));
+                        break;
+                    case "Organization":
+                        let members = fetch(`https://api.github.com/orgs/${dir[0]}/members`);
+                        members = (members.json()).length;
+
+                        fetch("/.template/org.md")
+                            .then(res => res.text())
+                            .then(data => {
+                                [["followers", data.followers], ["members", members], ["created_at", repoinfo.created_at], ["pushed_at", repoinfo.pushed_at], ["followings", data.following], ["userName", dir[0]]].forEach(info => {
+                                    data = data.replaceAll(`%${info[0]}%`, info[1]);
+                                });
+                                aria = markdown.parse(escape(data));
+                            })
+                            .catch(e => new Error(e));
+                        break;
+                
+                    default:
+                        new Error(`Error: unknown type: ${data.type}`);
+                        break;
+                }
+            }
         } else {
             const params = new URLSearchParams(window.location.search);
             switch (params.get("page").toLocaleLowerCase) {
                 case "about":
-                    
+                    fetch("/.template/pin/about.md")
+                        .then(res => res.text())
+                        .then(data => aria = markdown.parse(escape(data)))
+                        .catch(e => new Error(e));
                     break;
                 case "community":
                     fetch("/.template/pin/community.md")
                         .then(res => res.text())
-                        .then(data => aria = markdown.parse(data))
-                        .catch(() => new Error());
+                        .then(data => aria = markdown.parse(escape(data)))
+                        .catch(e => new Error(e));
                     break;
                 case null:
+                case "hub":
+                case "home":
                     fetch("/.template/pin/hub.md")
                         .then(res => res.text())
-                        .then(data => aria = markdown.parse(data))
-                        .catch(() => new Error());
+                        .then(data => aria = markdown.parse(escape(data)))
+                        .catch(e => new Error(e));
                     break;
                 default:
-                    new Error()
+                    new Error("404 Not Found");
                     break;
             }
         }
     } catch(e) {
-
-    }
-
-    if (location.pathname == ("" || null || undefined || "/")) {
-        const type = "hub";
-    } else if (location.pathname.split[1] && location.pathname.split[2] == ("" || null)) {
-        const type = "profile";
-    } else if (location.pathname.split[1] && location.pathname.split[2]) {
-        const type = "blog";
-    } else {
-        const type = "error";
-    }
-
-    switch (type) {
-        case "hub":
-            const params = new URLSearchParams(window.location.search);
-            if (params.has("page")) {
-                fetch(`https://raw.githubusercontent.com/blogbooks/contents/main/${params.get("page")}.md`)
-                    .then(res => res.text())
-                    .then(data => {
-                        aria = markdown.parse(data);
-                    })
-            }
-            break;
-        case "profile":
-            fetch(`https://api.github.com/users/${author}`)
-                .then(res => res.json())
-                .then(data => {
-                    if (data.message == "Not Found") {
-                        aria = markdown.parse("# Not Found")
-                    } else {
-                        if (data.type == "User") {
-                            aria = markdown.parse(``)
-                        } else if (data.type == "Organization") {
-
-                        }
-                    }
-                })
-                .catch(() => new Error())
-            break;
-        case "blog":
-
-            break;
-        case "error":
-            break;
-    }
-    try {
-        if (location.pathname == "" || location.pathname == "/") {
-            fetch("/.md")
+        fetch("/.template/error.md")
                 .then(res => res.text())
                 .then(data => {
-                    aria.innerHTML = markdown.parse(data);
+                    data = data.replaceAll("%error%", e);
+                    aria = markdown.parse(escape(data));
                 })
-        }
-        const author = location.pathname.split("/")[1];
-        fetch(`https://api.github.com/users/${author}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.message == "Not Found") {
-                    new Error();
-                } else {
-                    if (data.type == "User") {
-                        
-                    } else if (data.type == "Organization") {
-
-                    }
-                }
-            })
-            .catch(() => new Error())
-
-        fetch(`https://raw.githubusercontent.com/${author}/_cposts/main/${name}`)
-            .then(res => res.text())
-            .then(text => console.log(text))
-        switch (name) {
-            case "posts":
-            
-                break;
-    
-            default:
-                break;
-        }
-    } catch(e) {
-        return new Error("Error: at request function")
+                .catch(e => console.log("Error: loop"));
+            break;
     }
 }
 
