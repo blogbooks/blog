@@ -125,15 +125,15 @@ function request() {
                 data = data.replaceAll("%error%", e);
                 aria = markdown.parse(escape(data));
             })
-            .catch(e => console.log("Error: loop"));
+            .catch(e => console.log("Error: "+e));
     }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     markdown.ready;
-    request()
+    request();
     document.title = "Loading... | %siteTitle%";
-    const cache = document.documentElement.innerHTML;
+    let cache = document.documentElement.innerHTML;
     config.spaceArg.forEach(data => {
         cache = cache.replaceAll(`%${data[0]}%`, data[1]);
     });
