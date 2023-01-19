@@ -120,13 +120,12 @@ function request() {
         }
     } catch(e) {
         fetch("/.template/error.md")
-                .then(res => res.text())
-                .then(data => {
-                    data = data.replaceAll("%error%", e);
-                    aria = markdown.parse(escape(data));
-                })
-                .catch(e => console.log("Error: loop"));
-            break;
+            .then(res => res.text())
+            .then(data => {
+                data = data.replaceAll("%error%", e);
+                aria = markdown.parse(escape(data));
+            })
+            .catch(e => console.log("Error: loop"));
     }
 }
 
