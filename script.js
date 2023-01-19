@@ -129,18 +129,13 @@ function request() {
     }
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
-    try {
-        await markdown.ready;
-        request()
-        document.title = "Loading... | %siteTitle%";
-        const cache = document.documentElement.innerHTML;
-        config.spaceArg.forEach(data => {
-            cache = cache.replaceAll(`%${data[0]}%`, data[1]);
-        });
-        document.documentElement.innerHTML = cache;
-    } catch (e) {
-        console.log(e);
-        location.href = location.origin;
-    }
+window.addEventListener("DOMContentLoaded", () => {
+    markdown.ready;
+    request()
+    document.title = "Loading... | %siteTitle%";
+    const cache = document.documentElement.innerHTML;
+    config.spaceArg.forEach(data => {
+        cache = cache.replaceAll(`%${data[0]}%`, data[1]);
+    });
+    document.documentElement.innerHTML = cache;
 })
