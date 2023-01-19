@@ -6,7 +6,7 @@ const config = {
 
 function escape(string) {
     if(typeof string !== 'string') {
-      return string;
+        return string;
     }
     return string.replace(/[&'`"<>]/g, function(match) {
         return {
@@ -40,7 +40,10 @@ function request() {
                 const target = location.pathname.substring(location.pathname.indexOf(dir[0]) + dir[1].length + 1);
 
                 fetch(`https://raw.githubusercontent.com/${dir[0]}/_cpost/main/${target}.md`)
-                    .then()
+                    .then(res => res.text())
+                    .then(data => {
+                        aria = markdown.parse(escape(data));
+                    })
             } else {
                 let userinfo = fetch(`https://api.github.com/users/${dir[0]}`);
                 userinfo = userinfo.json();
@@ -131,7 +134,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     try {
         await markdown.ready;
         request()
-        document.title = "";
+        document.title = "Loading... | %siteTitle%";
         const cache = document.documentElement.innerHTML;
         config.spaceArg.forEach(data => {
             cache = cache.replaceAll(`%${data[0]}%`, data[1]);
