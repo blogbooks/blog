@@ -13,7 +13,7 @@ const ctrl = {
     },
     loadPost: (author, dir) => {
         // 一応
-        if (dir.search("?") !== -1 || dir.search("#") !== -1) return document.querySelector("main").innerHTML = "[Detect Danger] contains # or ?";
+        if (dir.indexOf("?") !== -1 || dir.indexOf("#") !== -1) return document.querySelector("main").innerHTML = "[Detect Danger] contains # or ?";
         fetch(`https://raw.githubusercontent.com/${author}/community_post/main/content/${dir}.md`)
             .then(res => res.text())
             .then(data => {
@@ -25,15 +25,24 @@ const ctrl = {
             })
     }
 }
-console.log("running");
+
+/* StartLine */
+
+// call markdown
 markdown.ready;
+
+// set menu
 ctrl.menu(".menu", ".close", ".inMenu");
+
+// get access info: URL
 let info = "";
 if (location.pathname.endsWith("/")) {
     info = location.pathname.substring(1, location.pathname.length - 1);
 } else {
     info = location.pathname.substring(1);
 }
+
+// switch
 switch (info.split("/").length) {
     case 0:
         ctrl.loadPost("blogbooks", ".views/welcome");
