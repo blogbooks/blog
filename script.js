@@ -10,7 +10,6 @@ const ctrl = {
         })
     },
     loadProfile: (name) => {
-        fetch(``)
     },
     loadPost: (author, dir) => {
         // 一応
@@ -37,12 +36,12 @@ if (location.pathname.endsWith("/")) {
 }
 switch (info.split("/").length) {
     case 0:
-        loadPost("blogbooks", ".views/welcome");
+        ctrl.loadPost("blogbooks", ".views/welcome");
         break;
     case 1:
-        loadProfile(info.substring(1).split("/")[0]);
+        ctrl.loadProfile(info.substring(1).split("/")[0]);
         break;
     default:
-        loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(location.pathname.substring(1).split("/")[1])));
+        ctrl.loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(location.pathname.substring(1).split("/")[1])));
         break;
 }
