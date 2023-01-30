@@ -73,7 +73,6 @@ header div.inMenu {
     display: none;
     font-family: 'Zen Kurenaido', sans-serif;
     opacity: 0.8;
-    transform: 1s opacity;
 }
 
 header div.inMenu.open {
