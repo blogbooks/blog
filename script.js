@@ -37,7 +37,7 @@ ctrl.menu(".menu", ".close", ".inMenu");
 
 // get access info: URL
 let info = "";
-if (location.pathname.endsWith("/") && info !== "/") {
+if (location.pathname.endsWith("/") && location.pathname !== "/") {
     info = location.pathname.substring(1, location.pathname.length - 1);
 } else {
     info = location.pathname.substring(1);
