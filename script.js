@@ -1,7 +1,7 @@
 const ctrl = {
     menu: (open, close, content) => {
         document.querySelector(open).addEventListener("click", () => {
-            document.querySelector(open).setAttribute("style", "display: block;opacity: 0.8;transition-property: opacity;transition-duration: 1s")
+            document.querySelector(content).setAttribute("style", "display: block;opacity: 0.8;transition-property: opacity;transition-duration: 1s")
         });
         document.querySelector(close).addEventListener("click", () => {
             setTimeout(() => {
