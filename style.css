@@ -1,16 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap');
 
-/* Animation */
-@keyframes switch {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-}
-
 /* Start Line */
 :root {
     --border-color: rgb(185, 185, 185);
@@ -82,7 +72,7 @@ header div.inMenu {
     background-color: var(--text-color);
     display: none;
     font-family: 'Zen Kurenaido', sans-serif;
-    opacity: 0;
+    opacity: 0.8;
     transform: 1s opacity;
 }
 

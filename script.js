@@ -6,10 +6,7 @@ const ctrl = {
             document.querySelector(content).style.display = "block";
         });
         document.querySelector(close).addEventListener("click", () => {
-            setTimeout(() => {
-                document.querySelector(content).style.display = "none";
-            }, 1000)
-            document.querySelector(content).style.opacity = "0";
+            document.querySelector(content).style.display = "none";
         })
     },
     loadProfile: (name) => {
@@ -31,6 +28,7 @@ const ctrl = {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+    console.log("running");
     markdown.ready;
     ctrl.menu(".menu", ".close", ".inMenu");
     let info = "";
