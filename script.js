@@ -39,10 +39,8 @@ ctrl.menu(".menu", ".close", ".inMenu");
 let info = "";
 if (location.pathname.endsWith("/")) {
     info = location.pathname.substring(1, location.pathname.length - 1);
-} else if (info !== "/") {
-    info = location.pathname.substring(1);
 } else {
-    info = "";
+    info = location.pathname.substring(1);
 }
 
 // switch
@@ -54,6 +52,6 @@ switch (info.split("/").length) {
         ctrl.loadProfile(info.substring(1).split("/")[0]);
         break;
     default:
-        ctrl.loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(location.pathname.substring(1).split("/")[1])));
+        ctrl.loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(info.split("/")[1])));
         break;
 }
