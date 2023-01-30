@@ -1,37 +1,33 @@
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #fff;
-    border-bottom: 1px solid rgb(185, 185, 185);
-}
-
-header div.logo {
-    padding-left: 30px;
-    font-size: larger;
-    color: rgb(110, 110, 255);
-}
-
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,700;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kurenaido&display=swap');
+
+/* Animation */
+@keyframes switch {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+/* Start Line */
+:root {
+    --border-color: rgb(185, 185, 185);
+    --text-color: rgb(74, 74, 74);
+    --menu-background-color: rgba(0, 0, 0, 0.75);
+}
 
 html, body {
-    /* font-family: 'Zen Kurenaido', sans-serif; */
     margin: 0;
     padding: 0;
-    height: 100%;
-    width: 100%;
 }
 
 *:not(.inMenu *) {
-    color: rgb(74, 74, 74);
+    color: var(--text-color);
 }
+
+/* header */
 
 header {
     position: fixed;
@@ -39,7 +35,7 @@ header {
     left: 0;
     width: 100%;
     background-color: #fff;
-    border-bottom: 1px solid rgb(185, 185, 185);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
 }
 
@@ -48,6 +44,7 @@ header > * {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+
     font-size: larger;
     font-weight: bold;
     padding: 10px;
@@ -59,15 +56,13 @@ header div.logo {
     padding-right: 30px;
     display: inline-block;
 }
-
 header div.logo:hover, header div.menu i:hover {
-    color: rgb(180, 180, 180);
+    color: var(--border-color);
     cursor: pointer;
 }
-
 header div.menu i:hover {
     outline-offset: 5px;
-    outline: 2px solid rgb(180, 180, 180);
+    outline: 2px solid var(--border-color);
 }
 
 header div.menu {
@@ -84,9 +79,15 @@ header div.inMenu {
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.75);
+    background-color: var(--text-color);
     display: none;
     font-family: 'Zen Kurenaido', sans-serif;
+    opacity: 0;
+    transform: 1s opacity;
+}
+
+header div.inMenu.open {
+    display: block;
 }
 
 header div.inMenu div.close {
@@ -121,26 +122,69 @@ header div.inMenu .list:hover {
     border-bottom: 2px solid #fff;
 }
 
+/* main */
+
 main {
-    padding: 30px;
-    padding-top: 70px;
+    padding: 70px;
 }
 
+main > * {
+    padding: 10px;
+}
+main > *:not(h1, h2, h3, h4, h5, h6) {
+    margin: 5px;
+}
+
+main ul, main ol {
+    margin-left: 30px;
+    padding: 10px;
+}
+
+main p {
+    margin: 5px;
+}
+
+main h1, main h2, main h3 {
+    border-bottom: 1px solid var(--border-color);
+}
+
+main h2 {
+    font-size: 25px;
+}
+
+main h3 {
+    font-size: 18.72px;
+}
+
+table {
+    border-collapse: collapse;
+    border: 3px solid var(--border-color);
+}
+
+thead th {
+    border-bottom: 3px solid var(--border-color);
+}
+tbody td {
+    border-bottom: 1px dashed var(--border-color);
+}
+
+td, th {
+    padding: 8px 20px;
+}
+
+main blockquote {
+    padding-left: 15px;
+    border-left: 4px solid var(--border-color);
+}
+/* footer */
 footer {
     width: 100%;
     background-color: #fff;
-    border-top: 1px solid rgb(185, 185, 185);
-    position: sticky;
-    top: 100vh;
-}
-
-body > footer {
-    position: sticky;
-    top: 100vh;
+    border-top: 1px solid var(--border-color);
 }
 
 footer * {
-    color: rgb(185, 185, 185);
+    color: var(--border-color);
 }
 
 footer p {
