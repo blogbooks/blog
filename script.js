@@ -14,6 +14,7 @@ const ctrl = {
     loadPost: (author, dir) => {
         // 一応
         if (dir.indexOf("?") !== -1 || dir.indexOf("#") !== -1) return document.querySelector("main").innerHTML = "[Detect Danger] contains # or ?";
+
         fetch(`https://raw.githubusercontent.com/${author}/community_post/main/content/${dir}.md`)
             .then(res => res.text())
             .then(data => {
@@ -38,8 +39,10 @@ ctrl.menu(".menu", ".close", ".inMenu");
 let info = "";
 if (location.pathname.endsWith("/")) {
     info = location.pathname.substring(1, location.pathname.length - 1);
-} else {
+} else if (info !== "/") {
     info = location.pathname.substring(1);
+} else {
+    info = "";
 }
 
 // switch
