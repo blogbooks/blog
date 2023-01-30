@@ -26,29 +26,23 @@ const ctrl = {
             })
     }
 }
-
-window.addEventListener("DOMContentLoaded", () => {
-    console.log("running");
-    markdown.ready;
-    ctrl.menu(".menu", ".close", ".inMenu");
-    let info = "";
-
-    if (location.pathname.endsWith("/")) {
-        info = location.pathname.substring(1, location.pathname.length - 1);
-    } else {
-        info = location.pathname.substring(1);
-    }
-
-    switch (info.split("/").length) {
-        case 0:
-            loadPost("blogbooks", ".views/welcome");
-            break;
-        case 1:
-            loadProfile(info.substring(1).split("/")[0]);
-            break;
-
-        default:
-            loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(location.pathname.substring(1).split("/")[1])));
-            break;
-    }
-})
+console.log("running");
+markdown.ready;
+ctrl.menu(".menu", ".close", ".inMenu");
+let info = "";
+if (location.pathname.endsWith("/")) {
+    info = location.pathname.substring(1, location.pathname.length - 1);
+} else {
+    info = location.pathname.substring(1);
+}
+switch (info.split("/").length) {
+    case 0:
+        loadPost("blogbooks", ".views/welcome");
+        break;
+    case 1:
+        loadProfile(info.substring(1).split("/")[0]);
+        break;
+    default:
+        loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(location.pathname.substring(1).split("/")[1])));
+        break;
+}
