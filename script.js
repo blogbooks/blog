@@ -1,3 +1,5 @@
+"use strict";
+
 const ctrl = {
     menu: (open, close, content) => {
         document.querySelector(open).addEventListener("click", () => {
