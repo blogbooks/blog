@@ -45,11 +45,12 @@ if (location.pathname.endsWith("/") && location.pathname !== "/") {
 
 // switch
 switch (info.split("/").length) {
-    case 0:
-        ctrl.loadPost("blogbooks", ".views/welcome");
-        break;
     case 1:
-        ctrl.loadProfile(info.substring(1).split("/")[0]);
+        if (info == null) {
+            ctrl.loadPost("blogbooks", ".views/welcome");
+        } else {
+            ctrl.loadProfile(info.substring(1).split("/")[0]);
+        }
         break;
     default:
         ctrl.loadPost(info.substring(1).split("/")[0], info.substring(info.indexOf(info.split("/")[1])));
